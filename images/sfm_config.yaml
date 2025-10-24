@@ -1,0 +1,44 @@
+# ================================
+# SfM + MVS CONFIGURATION (CPU)
+# ================================
+
+# --- Input / Output Paths ---
+images_path: "images"              # folder with N images
+output_path: "sfm_out"             # reconstruction output
+
+# --- Feature Extraction (SIFT) ---
+feature_extraction:
+  use_gpu: false
+  max_image_size: 2000             # downscale for CPU efficiency
+  single_camera: true              # same camera intrinsics for all images
+
+# --- Matching ---
+matching:
+  type: sequential                 # "sequential" or "vocab_tree"
+  overlap: 5                       # neighbor overlap for sequential matcher
+  use_gpu: false
+
+# --- Sparse Mapping ---
+mapping:
+  ba_global_max_num_iterations: 30
+  tri_min_angle: 1.5               # lower = more points but less stable
+  ba_refine_focal_length: true     # set false if intrinsics known
+
+# --- Dense Stereo (PatchMatch) ---
+patch_match:
+  gpu_index: -1                    # -1 → CPU only
+  max_image_size: 2400             # 0 = use full res
+  window_radius: 5                 # higher = smoother but slower
+  num_samples: 20                  # more samples = denser cloud
+  geom_consistency: true           # enables geometric consistency check
+
+# --- Depth Fusion ---
+stereo_fusion:
+  input_type: geometric
+  min_num_pixels: 5                # higher filters noise but thins cloud
+
+# --- File Export ---
+export:
+  ply_filename: "fused.ply"
+  pcd_filename: "dense_cloud.pcd"
+
