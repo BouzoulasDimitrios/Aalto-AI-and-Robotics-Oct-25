@@ -1,0 +1,71 @@
+{
+  "robot": "follower-1",
+  "port": "/dev/ttyACM0",
+  "created_at": "2025-10-24T22:14:26",
+  "count": 7,
+  "poses": [
+    {
+      "shoulder_pan": 11.868131868131869,
+      "shoulder_lift": -52.30769230769231,
+      "elbow_flex": 39.56043956043956,
+      "wrist_flex": 89.71428571428571,
+      "wrist_roll": 26.681318681318682,
+      "gripper": 100.0,
+      "timestamp": "2025-10-24T22:12:43.362"
+    },
+    {
+      "shoulder_pan": 11.780219780219781,
+      "shoulder_lift": 2.021978021978022,
+      "elbow_flex": -10.813186813186814,
+      "wrist_flex": 110.54945054945055,
+      "wrist_roll": 26.857142857142858,
+      "gripper": 100.0,
+      "timestamp": "2025-10-24T22:12:47.332"
+    },
+    {
+      "shoulder_pan": 45.18681318681319,
+      "shoulder_lift": -29.274725274725274,
+      "elbow_flex": 32.967032967032964,
+      "wrist_flex": 44.0,
+      "wrist_roll": -119.07692307692308,
+      "gripper": 100.0,
+      "timestamp": "2025-10-24T22:13:54.244"
+    },
+    {
+      "shoulder_pan": 45.18681318681319,
+      "shoulder_lift": -44.21978021978022,
+      "elbow_flex": 93.36263736263736,
+      "wrist_flex": -7.428571428571429,
+      "wrist_roll": -148.87912087912088,
+      "gripper": 100.0,
+      "timestamp": "2025-10-24T22:13:59.744"
+    },
+    {
+      "shoulder_pan": 118.5934065934066,
+      "shoulder_lift": -59.86813186813187,
+      "elbow_flex": -8.87912087912088,
+      "wrist_flex": -68.35164835164835,
+      "wrist_roll": -189.05494505494505,
+      "gripper": 100.0,
+      "timestamp": "2025-10-24T22:14:07.350"
+    },
+    {
+      "shoulder_pan": 118.85714285714286,
+      "shoulder_lift": -82.72527472527473,
+      "elbow_flex": 9.934065934065934,
+      "wrist_flex": -93.93406593406593,
+      "wrist_roll": -175.95604395604394,
+      "gripper": 100.0,
+      "timestamp": "2025-10-24T22:14:12.312"
+    },
+    {
+      "shoulder_pan": -10.637362637362637,
+      "shoulder_lift": -49.05494505494506,
+      "elbow_flex": 85.27472527472527,
+      "wrist_flex": -8.131868131868131,
+      "wrist_roll": -162.5934065934066,
+      "gripper": 100.0,
+      "timestamp": "2025-10-24T22:14:24.049"
+    }
+  ]
+}

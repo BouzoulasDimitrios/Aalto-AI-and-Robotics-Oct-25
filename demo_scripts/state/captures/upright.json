@@ -1,0 +1,17 @@
+{
+  "robot": "follower-1",
+  "port": "/dev/ttyACM0",
+  "created_at": "2025-10-25T14:47:09",
+  "count": 1,
+  "poses": [
+    {
+      "shoulder_pan": -6.681318681318682,
+      "shoulder_lift": 20.747252747252748,
+      "elbow_flex": -74.81318681318682,
+      "wrist_flex": -7.164835164835165,
+      "wrist_roll": -159.34065934065933,
+      "gripper": 100.0,
+      "timestamp": "2025-10-25T14:47:07.912"
+    }
+  ]
+}

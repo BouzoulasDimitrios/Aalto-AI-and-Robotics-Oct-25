@@ -1,0 +1,26 @@
+{
+  "robot": "follower-1",
+  "port": "/dev/ttyACM0",
+  "created_at": "2025-10-25T16:43:26",
+  "count": 2,
+  "poses": [
+    {
+      "shoulder_pan": -11.692307692307692,
+      "shoulder_lift": -52.65934065934066,
+      "elbow_flex": 26.373626373626372,
+      "wrist_flex": 108.43956043956044,
+      "wrist_roll": -160.65934065934067,
+      "gripper": 50.0,
+      "timestamp": "2025-10-25T16:43:15.291"
+    },
+    {
+      "shoulder_pan": -12.219780219780219,
+      "shoulder_lift": -12.747252747252746,
+      "elbow_flex": -8.87912087912088,
+      "wrist_flex": 109.31868131868131,
+      "wrist_roll": -160.57142857142858,
+      "gripper": 50.0,
+      "timestamp": "2025-10-25T16:43:20.562"
+    }
+  ]
+}
