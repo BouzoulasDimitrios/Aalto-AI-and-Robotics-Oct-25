@@ -1,11 +1,28 @@
 # Very Low Budget 3D Scanner
 
+
+Phone camera based reconstruction:
+<p>
+<img src="./readme_resources/tl.png" width="32%">
+<img src="./readme_resources/tm.png" width="32%">
+<img src="./readme_resources/tr.png" width="32%">
+</p>
+
+Webcam based reconstruction:
+<p>
+
+<img src="./readme_resources/rl.png" width="32%">
+<img src="./readme_resources/rm.png" width="32%">
+<img src="./readme_resources/rr.png" width="32%">
+</p>
+
+
 The low budget scanner leveredges an so 101 robot arm, a rotating platform and a 720p webcam, the goal was to deliver an extremely budget friendly robot arm capable of creating a 3D scan of an object.
 
 <p>
-<img src="https://imgs.search.brave.com/49AMLh15ySV4qQGzYBF2j14l1QSu9lGU3sD2xOPHRd4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLmVi/YXlpbWcuY29tL2lt/YWdlcy9nL1c2Y0FB/ZVN3UHR4b2FLR0cv/cy1sMTYwMC5qcGc" width="33%">
-<img src="https://imgs.search.brave.com/SUb_jyiefddCSO73-ezcVJZQ8hgPwJYYtXSmngy7pkc/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NDFaeGx3bkstU0wu/anBn" width = "33%">
-<img src ="https://imgs.search.brave.com/qmls7_gOsbRaFJ1xLgVKM46FLVRGNZyZi7rnmKFg1Ug/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/cHJvYWltLmNvbS9j/ZG4vc2hvcC9maWxl/cy9Qcm9haW0tVHVy/bnRhYmxlLTM2MC1S/b3RhdGluZy1QbGF0/Zm9ybS13aXRoLUpv/eXN0aWNrLUNvbnRy/b2xsZXItMV83MDB4/NzAwLmpwZz92PTE3/NDIzNjkyNTM" width = "33%">
+<img src="https://imgs.search.brave.com/49AMLh15ySV4qQGzYBF2j14l1QSu9lGU3sD2xOPHRd4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLmVi/YXlpbWcuY29tL2lt/YWdlcy9nL1c2Y0FB/ZVN3UHR4b2FLR0cv/cy1sMTYwMC5qcGc" width="32%">
+<img src="https://imgs.search.brave.com/SUb_jyiefddCSO73-ezcVJZQ8hgPwJYYtXSmngy7pkc/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NDFaeGx3bkstU0wu/anBn" width = "32%">
+<img src ="https://imgs.search.brave.com/qmls7_gOsbRaFJ1xLgVKM46FLVRGNZyZi7rnmKFg1Ug/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/cHJvYWltLmNvbS9j/ZG4vc2hvcC9maWxl/cy9Qcm9haW0tVHVy/bnRhYmxlLTM2MC1S/b3RhdGluZy1QbGF0/Zm9ybS13aXRoLUpv/eXN0aWNrLUNvbnRy/b2xsZXItMV83MDB4/NzAwLmpwZz92PTE3/NDIzNjkyNTM" width = "32%">
 </p>
 
 ## Data processing pipeline
