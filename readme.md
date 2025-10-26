@@ -59,6 +59,10 @@ In case you want to skip the documentation of the stepper motor feel free to use
 
 # Setup
 
+You need to perform the calibration for the **FOLLOWE** arm from the official documentation: [link](https://huggingface.co/docs/lerobot/so101)
+
+NOTE: the hardware environment contains the lerobot libraries already by installing it you can skip the step from the documentation
+
 # Hardware Setup
 
 Ports Used:
@@ -128,5 +132,12 @@ python image_to_pcd.py
 
 ## Data visualization
 
+The software used to visualize the final point cloud is cloud compare:
 
+<p>
+<img src="https://imgs.search.brave.com/5KQvdJ9kI05vT9K55TZa_sDeRa2oCnjoenG6XIasKMI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/ZmlsZXBpY2tlci5p/by9hcGkvZmlsZS9R/WlliaVUyc1FnZXR5/enVLVGh2dw" width="33%">
+
+<img src="https://imgs.search.brave.com/vjKixmK5AG8zFrnxUjbsE9tjjbLfz_P8CLl5KfFlIA8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9oZWlz/ZS5jbG91ZGltZy5p/by92Ny9fd3d3LWhl/aXNlLWRlXy9kb3du/bG9hZC9tZWRpYS9j/bG91ZGNvbXBhcmUt/OTE0MDUvY2xvdWRj/b21wYXJlLTFfMS0x/LTE5LmpwZz9mb3Jj/ZV9mb3JtYXQ9YXZp/Zix3ZWJwLGpwZWcm/b3JnX2lmX3NtbD0x/JnE9NzAmd2lkdGg9/MTQ5Ng" width="48%" />
+
+</p>
 
