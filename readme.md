@@ -1,36 +1,41 @@
 # Very Low Budget 3D Scanner
 
-The low budget scanner leveredges an so 101 robot arm and a 720p webcam, the goal was to deliver an extremely budger friendly robot arm capable of creating a 3D scan of an object.
+The low budget scanner leveredges an so 101 robot arm, a rotating platform and a 720p webcam, the goal was to deliver an extremely budget friendly robot arm capable of creating a 3D scan of an object.
 
 <p>
-<img src="https://imgs.search.brave.com/49AMLh15ySV4qQGzYBF2j14l1QSu9lGU3sD2xOPHRd4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLmVi/YXlpbWcuY29tL2lt/YWdlcy9nL1c2Y0FB/ZVN3UHR4b2FLR0cv/cy1sMTYwMC5qcGc" width="48%">
-<img src="https://imgs.search.brave.com/SUb_jyiefddCSO73-ezcVJZQ8hgPwJYYtXSmngy7pkc/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NDFaeGx3bkstU0wu/anBn" width = "48%">
+<img src="https://imgs.search.brave.com/49AMLh15ySV4qQGzYBF2j14l1QSu9lGU3sD2xOPHRd4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLmVi/YXlpbWcuY29tL2lt/YWdlcy9nL1c2Y0FB/ZVN3UHR4b2FLR0cv/cy1sMTYwMC5qcGc" width="33%">
+<img src="https://imgs.search.brave.com/SUb_jyiefddCSO73-ezcVJZQ8hgPwJYYtXSmngy7pkc/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NDFaeGx3bkstU0wu/anBn" width = "33%">
+<img src ="https://imgs.search.brave.com/qmls7_gOsbRaFJ1xLgVKM46FLVRGNZyZi7rnmKFg1Ug/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/cHJvYWltLmNvbS9j/ZG4vc2hvcC9maWxl/cy9Qcm9haW0tVHVy/bnRhYmxlLTM2MC1S/b3RhdGluZy1QbGF0/Zm9ybS13aXRoLUpv/eXN0aWNrLUNvbnRy/b2xsZXItMV83MDB4/NzAwLmpwZz92PTE3/NDIzNjkyNTM" width = "33%">
 </p>
 
 ## Data processing pipeline
 
+The data processing pipeline works as follows:
 
-<img src="./readme_resources/pp.png" width="70%">
+1) masking of the dataset, we take the entire dataset and mask it to remove noise and unnecessary data
+
+2) Feature extraction and matching: features are extracted using sift, the maximum features per image is 2000, in between each image we perform feature matching to estimate the pixel distortion and change
+
+3) structure from motion | bundle adjustment: we use the detected features and their distortion values we construct a 3D representation of the object and save the information as a Point Cloud Data (PCD)
+
+<img src="./readme_resources/pp.png" width="70%" style="display: block; margin: 0 auto" >
 
 
 
 # Hardware Used
 
 
-The hardware used is simply an arduino uno and a 5v stepper motor
+The hardware used is simply an Aduino UNO and a 5v stepper motor
 
 
-<p>
+<p >
 <img src="https://imgs.search.brave.com/pbdbR1c915m6F5N5aK5XMiX_3yxePU6eFSBhSZYl9Gc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/bWFrZXJzdG9yZS5j/b20uYXUvd3AtY29u/dGVudC91cGxvYWRz/LzIwMTUvMDIvRUxF/Qy0yOEJZSjQ4LVVM/TjIwMDMtMDIud2Vi/cA" width="37%">
 
 <img src="https://imgs.search.brave.com/QuZ3elFnxeebqEAGoflfGx6N9KbaEzK88m8HO2s8ajo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy9h/L2E2L0FyZHVpbm9f/VW5vXzAwNi5qcGc" width="48%">
-</p>
+</p >
 
 
 # Wiring
-
-
-
 
 | Arduino | Stepper |
 | ------- | ------- |
@@ -54,16 +59,34 @@ In case you want to skip the documentation of the stepper motor feel free to use
 | 5V      | RED     |
 
 
+### Wiring of the platform | Robot arm | webcam
 
-
+Everything is directly connected to the "master" pc/laptop, reminder to check for the ports everything connected to
 
 # Setup
 
-You need to perform the calibration for the **FOLLOWE** arm from the official documentation: [link](https://huggingface.co/docs/lerobot/so101)
+You need to perform the calibration for the **FOLLOWER** arm from the official documentation: [link](https://huggingface.co/docs/lerobot/so101)
+
 
 NOTE: the hardware environment contains the lerobot libraries already by installing it you can skip the step from the documentation
 
+<img src="https://imgs.search.brave.com/JvlmeB4FO1fIkTs66teRGHyXYQCGWzcxFQFPYjEhEVE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9maWxl/cy5zZWVlZHN0dWRp/by5jb20vd2lraS9y/b2JvdGljcy9wcm9q/ZWN0cy9sZXJvYm90/L3NvMTAxL2ZvbGxv/d2VyX21pZGRsZS53/ZWJw" width="60%" style="display: block; margin: 0 auto" >
+
+
+
 # Hardware Setup
+
+Anaconda has been used as the environment management tool of choice:
+
+<br>
+
+<img src= "https://imgs.search.brave.com/IVmoslIbtlPZP06T84bhc8hYM41qVP4VECaxP2wz88E/rs:fit:0:180:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5kZXNpZ25ydXNo/LmNvbS9pbnNwaXJh/dGlvbl9pbWFnZXMv/MTM1NzkwL2NvbnZl/cnNpb25zL18xNTEz/MTA1Nzg4XzExMV9h/bmFjb25kYTJfZTdk/ZmU0NzUzNDg5LWRl/c2t0b3AuanBn" width="50%" style="display: block; margin: 0 auto" >
+
+<br>
+<br>
+
+You are expected to mount the webcam/camera of choice to the robot arm 
+
 
 Ports Used:
 arduino: ttyUSB0
