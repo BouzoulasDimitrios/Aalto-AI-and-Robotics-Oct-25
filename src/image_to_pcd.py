@@ -9,9 +9,9 @@ import cv2
 # =======================
 # Config (CPU/GPU)
 # =======================
-IMAGE_DIR   = Path("./images/lego3")
-WORK_DIR    = Path("./lego3")
-OUT_DIR     = Path("./lego3_out")
+IMAGE_DIR   = Path(f"PATH_TO_YOU_IMAGE_FOLDER")
+WORK_DIR    = Path("./work")
+OUT_DIR     = Path("./outputs")
 
 DB_PATH     = WORK_DIR / "colmap.db"
 SPARSE_DIR  = WORK_DIR / "sparse"        # mapper output
