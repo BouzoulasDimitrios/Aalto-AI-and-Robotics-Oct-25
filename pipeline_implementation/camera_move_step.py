@@ -220,6 +220,11 @@ def open_camera(device: str, width: int, height: int, fps: int, warmup_s: float,
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
     cap.set(cv2.CAP_PROP_FPS, fps)
+    # Hint to use a tiny ring buffer (may be ignored by some drivers)
+    try:
+        cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
+    except Exception:
+        pass
     # Warm up
     if warmup_s > 0:
         time.sleep(warmup_s)
@@ -227,13 +232,49 @@ def open_camera(device: str, width: int, height: int, fps: int, warmup_s: float,
         cap.read()
     return cap
 
-def snap_image(cap, out_path: Path) -> Path:
-    ok, frame = cap.read()
+def flush_camera(cap, frames: int = 8, ms: float = 0.0):
+    """Drop buffered frames so the next frame is as fresh as possible.
+    If ms>0, flush for that duration using grab(); otherwise drop N frames.
+    """
+    if ms and ms > 0:
+        t_end = time.time() + (ms / 1000.0)
+        while time.time() < t_end:
+            cap.grab()
+    else:
+        frames = max(0, int(frames))
+        for _ in range(frames):
+            cap.grab()
+
+
+def snap_image(cap, out_path: Path, flush_frames: int = 8, flush_ms: float = 0.0, read_timeout_s: float = 1.5) -> Path:
+    """Capture the freshest frame available with bounded wait.
+    Strategy: optionally flush (drop) frames using read(), then read one
+    frame with a deadline. Avoids grab()/retrieve() blocking on some V4L2 builds.
+    """
+    # Flush buffered frames
+    if flush_ms and flush_ms > 0:
+        t_end = time.time() + (flush_ms / 1000.0)
+        while time.time() < t_end:
+            cap.read()
+    else:
+        for _ in range(max(0, int(flush_frames))):
+            cap.read()
+
+    # Read one frame with timeout
+    deadline = time.time() + max(0.2, float(read_timeout_s))
+    frame = None
+    ok = False
+    while time.time() < deadline:
+        ok, frame = cap.read()
+        if ok and frame is not None:
+            break
     if not ok or frame is None:
-        raise RuntimeError("Failed to grab frame")
+        raise RuntimeError("Camera read timeout")
+
     out_path.parent.mkdir(parents=True, exist_ok=True)
     cv2.imwrite(str(out_path), frame)
     return out_path
+
 
 def sanitize(name: str) -> str:
     # safe for filenames
@@ -307,6 +348,25 @@ def main(args):
     )
     print(f"Camera ready: {args.cam_device} ({args.cam_width}x{args.cam_height}@{args.cam_fps})")
 
+    def reopen_camera_if_needed(scope_label: str = ""):
+        nonlocal cap
+        if args.cam_reopen_per_pose or args.cam_reopen_per_loop:
+            try:
+                if cap is not None:
+                    cap.release()
+            except Exception:
+                pass
+            cap = open_camera(
+                device=args.cam_device,
+                width=args.cam_width,
+                height=args.cam_height,
+                fps=args.cam_fps,
+                warmup_s=args.cam_warmup_s,
+                warmup_frames=args.cam_warmup_frames,
+            )
+            if scope_label:
+                print(f"Camera reopened ({scope_label}).")
+
     # 4) Open stepper (optional)
     stepper = None
     if not args.no_stepper:
@@ -348,7 +408,10 @@ def main(args):
 
     # 6) Loops over the sequence
     for loop_idx in range(1, args.loops + 1):
-        print(f"\n=== Loop {loop_idx}/{args.loops} ===")
+        print(f"=== Loop {loop_idx}/{args.loops} ===")
+        # Optionally reopen camera at the start of each loop
+        if args.cam_reopen_per_loop:
+            reopen_camera_if_needed(scope_label=f"start of loop {loop_idx}")
         # 6a) Move stepper once BEFORE the arm starts its sequence
         if stepper is not None:
             print(f"Stepper: MOVE {args.stepper_move_deg} deg …")
@@ -359,6 +422,9 @@ def main(args):
 
         # 6b) Run all arm poses
         for pose_idx, pose in enumerate(pf.poses, start=1):
+            # Optionally reopen camera per pose (maximum freshness)
+            if args.cam_reopen_per_pose:
+                reopen_camera_if_needed(scope_label=f"pose {pose_idx}")
             goal = {j: float(pose.joints[j]) for j in JOINTS}
             label = f"{pose_idx:03d}_{sanitize(pose.name)}"
             print(f"Moving to: {pose.name} ({pose_idx}/{len(pf.poses)})")
@@ -370,12 +436,21 @@ def main(args):
                 speed_deg_s=args.speed_deg_s,
                 ease=(not args.no_ease),
             )
-            # settle then snapshot
+            # settle then snapshot (flush handled inside snap_image)
             time.sleep(args.settle_s)
             img_name = f"loop{loop_idx:03d}_{label}.jpg"
             img_path = out_dir / img_name
-            snap_image(cap, img_path)
+            # Try capture; if it fails, reopen once and retry
+            try:
+                snap_image(cap, img_path, flush_frames=args.cam_flush_frames, flush_ms=args.cam_flush_ms, read_timeout_s=args.cam_read_timeout_s)
+            except Exception as e:
+                print(f"Capture failed ({e}); reopening camera and retrying once…")
+                reopen_camera_if_needed(scope_label="capture retry")
+                snap_image(cap, img_path, flush_frames=args.cam_flush_frames, flush_ms=args.cam_flush_ms, read_timeout_s=args.cam_read_timeout_s)
             print(f"Reached: {pose.name} → saved {img_path.name}")
+
+                        # settle then snapshot
+            
     # Move to REST position if provided
     if rest_goal is not None:
         print("Moving to REST position…")
@@ -427,6 +502,11 @@ if __name__ == "__main__":
     parser.add_argument("--cam_fps", type=int, default=30)
     parser.add_argument("--cam_warmup_s", type=float, default=0.2)
     parser.add_argument("--cam_warmup_frames", type=int, default=5)
+    parser.add_argument("--cam_flush_frames", type=int, default=8, help="Drop N frames before each snapshot (helps avoid stale frames)")
+    parser.add_argument("--cam_flush_ms", type=float, default=0.0, help="Alternatively flush camera for N milliseconds before snapshot")
+    parser.add_argument("--cam_reopen_per_loop", action="store_true", help="Close/reopen camera at the start of each loop for freshness")
+    parser.add_argument("--cam_reopen_per_pose", action="store_true", help="Close/reopen camera before each pose (slower but freshest)")
+    parser.add_argument("--cam_read_timeout_s", type=float, default=1.5, help="Max seconds to wait for a frame before failing/retrying")
     # Stepper/Arduino args
     parser.add_argument("--no_stepper", action="store_true", help="Disable stepper control")
     parser.add_argument("--stepper_port", default="/dev/ttyUSB0", help="Arduino serial port (default: /dev/ttyUSB0)")
