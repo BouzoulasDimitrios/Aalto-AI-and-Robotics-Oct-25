@@ -89,21 +89,23 @@ python hardware/pose_recording.py
 reccomendation run for 1 loop at first to test the system and then increase the number of loops
 ```
 python camera_move_step.py \
-  --file /home/dimitrios/git_repos/robotics_hackathon/demo_scripts/state/captures/peji01.json \
+  --file hardware/pre_recorded_paths/2pose_data_rec.json \
   --id my_follower \
   --loops 1 \
-  --rest_file /home/dimitrios/git_repos/robotics_hackathon/demo_scripts/state/captures/restpose.json \
+  --rest_file hardware/pre_recorded_paths/restpose.json \
   --rest_pause_s 1.0
 ```
 
 ## Arduino Code
-if you wish to change the angle step  
-
+if you wish to change the angle step you need to update the step degrees function call in the arduino code
 ```
-
+if (cmd == "+")                  { stepDegrees(10);  Serial.println("OK"); }
+else if (cmd == "-")             { stepDegrees(-10); Serial.println("OK"); }
 ```
 
 # Data Processing 
+after recording the data using your robot arm and the rotating platform your can process your recorded dataset using the provided pipeline
+
 create environment:
 ```
 conda env create -f environment.yml
@@ -123,6 +125,8 @@ to use your images use `image_to_pcd.py`:
 ```
 python image_to_pcd.py
 ```
+
+## Data visualization
 
 
 
