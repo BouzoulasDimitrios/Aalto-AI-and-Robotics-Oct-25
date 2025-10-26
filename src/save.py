@@ -14,7 +14,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("video", help="Path to input .mp4")
     ap.add_argument("-o", "--out", default="frames_out", help="Output folder")
-    ap.add_argument("-k", "--count", type=int, default=80, help="How many frames to save (default: 80)")
+    ap.add_argument("-k", "--count", type=int, default=60, help="How many frames to save (default: 80)")
     ap.add_argument("-f", "--format", choices=["jpg", "png"], default="jpg", help="Image format")
     ap.add_argument("--quality", type=int, default=95, help="JPEG quality (1–100) / PNG compression (0–9)")
     args = ap.parse_args()
