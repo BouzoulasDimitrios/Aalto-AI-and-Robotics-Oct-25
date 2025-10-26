@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 .vscode
 datasets/
+archive/
 *.jpg
 # C extensions
 *.so
